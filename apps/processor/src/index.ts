@@ -1,7 +1,13 @@
-import RedisQueue from "@repo/queue"
-import prisma  from "@repo/db"
 
-const queue = RedisQueue.getInstance();
+import prisma  from "@repo/db"
+import { Queue } from "bullmq";
+
+const queue = new Queue('Flows', {
+    connection : {
+        host : "127.0.0.1",
+        port : 6379
+    }
+})
 
 
 const main = async () => {
@@ -11,7 +17,7 @@ const main = async () => {
         if (requests.length) console.log(requests);
         // push to queue
         requests.forEach(async req => {
-            await queue.push("flowTasks", req)
+            await queue.add('FlowTasks', req);
         });
         // delete from database
         const response = await prisma.flowRunOutBox.deleteMany({
