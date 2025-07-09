@@ -1,20 +1,20 @@
 import RedisQueue from "@repo/queue"
-import { PrismaClient } from "@repo/db/src/generated/prisma"
+import prisma  from "@repo/db"
 
 const queue = RedisQueue.getInstance();
-const client = new PrismaClient();
+
 
 const main = async () => {
     while(1) {
         // Get from database
-        const requests = await client.zapRunOutBox.findMany({ take : 10});
+        const requests = await prisma.flowRunOutBox.findMany({ take : 10});
         if (requests.length) console.log(requests);
         // push to queue
         requests.forEach(async req => {
-            await queue.push("zapTasks", req)
+            await queue.push("flowTasks", req)
         });
         // delete from database
-        const response = await client.zapRunOutBox.deleteMany({
+        const response = await prisma.flowRunOutBox.deleteMany({
             where : {
                 id : {
                     in : requests.map(r => r.id)

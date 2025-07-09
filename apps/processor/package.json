@@ -12,7 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@repo/queue": "^1.0.0",
+    "@repo/queue": "*",
+    "@repo/db": "*",
     "esbuild": "^0.25.6"
   },
   "devDependencies": {

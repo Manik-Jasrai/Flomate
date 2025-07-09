@@ -15,7 +15,8 @@
     "@prisma/client": "^6.11.1",
     "cors": "^2.8.5",
     "esbuild": "^0.25.6",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "@repo/db" : "*"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

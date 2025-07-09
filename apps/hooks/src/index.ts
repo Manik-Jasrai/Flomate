@@ -1,22 +1,21 @@
 import express from "express"
-import { PrismaClient } from "@repo/db/src/generated/prisma"
+import prisma  from "@repo/db"
 const app = express();
 
-const client = new PrismaClient();
 
-app.post('/hooks/catch/:userId/:zapId', async (req, res) => {
+app.post('/hooks/catch/:userId/:flowId', async (req, res) => {
     const userId = req.params.userId
-    const zapId = req.params.zapId
+    const flowId = req.params.flowId
 
-    await client.$transaction(async tx => {
-        const zapRun = await tx.zapRun.create({
+    await prisma.$transaction(async tx => {
+        const flowRun = await tx.flowRun.create({
             data : {
-                zapId
+                flowId
             }
         })
-        await tx.zapRunOutBox.create({
+        await tx.flowRunOutBox.create({
             data : {
-                zapRunId : zapRun.id
+                flowRunId : flowRun.id
             }
         })
     })
