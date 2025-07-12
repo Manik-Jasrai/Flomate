@@ -10,14 +10,19 @@ datasource db {
 
 model User {
   id   Int @id @default(autoincrement())
-  name String
+  username String
+  password String
+  flows Flow[]
 }
 
 model Flow {
-  id       String     @id @default(uuid())
-  trigger  Trigger?
-  action   Action[]
-  flowRuns FlowRun[]
+  id        String     @id @default(uuid())
+  triggerId String
+  trigger   Trigger?
+  action    Action[]
+  flowRuns  FlowRun[]
+  userId    Int
+  user      User @relation(fields: [userId], references: [id])
 }
 
 model Trigger {
@@ -30,7 +35,7 @@ model Trigger {
 
 model AvailableTrigger {
   id      String    @id @default(uuid())
-  name    String
+  name    String    @unique
   trigger Trigger[]
 }
 
@@ -41,10 +46,11 @@ model Action {
   actionId     String
   type         AvailableAction @relation(fields: [actionId], references: [id])
   sortingOrder Int             @default(0)
+  metaData     Json            @default("{}")
 }
 model AvailableAction {
   id     String     @id @default(uuid())
-  name   String
+  name   String     @unique
   action Action[]
 }
 
