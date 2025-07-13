@@ -1,5 +1,6 @@
 import express, { json } from "express"
 import cors from "cors"
+import cookieParser from "cookie-parser";
 
 import verifyJwt from "./middleware/verifyJwt";
 import { authRouter } from "./routes/auth";
@@ -12,7 +13,11 @@ import logger from "./middleware/logger";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
-app.use(cors());
+app.use(cookieParser())
+app.use(cors({
+    origin: 'http://localhost:5173', // or your frontend domain
+    credentials: true
+}));
 app.use(logger)
 
 // Auth Routes
@@ -29,3 +34,4 @@ app.use('/api/v1/action',  verifyJwt,  actionRouter);
 app.listen(4000, () => {
     console.log("API has started");
 })
+

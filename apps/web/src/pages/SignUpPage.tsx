@@ -1,6 +1,41 @@
+import { useEffect, useState } from "react";
 import UserForm from "../components/forms/UserForm";
+import { api } from "../api/axios";
 
 const SignUpPage = () => {
+  const [usernameInput, setUsernameInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
+  
+  useEffect(() => {
+    setErrMsg('');
+  }, [usernameInput, passwordInput])
+
+  const signup = async (e : any) => {
+    e.preventDefault();
+    const username = usernameInput;
+    const password = passwordInput;
+
+    try{
+
+      const result = await api.post('/auth/register',{
+        username,password
+      });
+      setErrMsg("");
+      console.log(result.data)
+
+      // Auto Login
+      // Navigate to Dashboard
+
+    } catch(err : any) {
+      if (err.response.data.message) {
+        setErrMsg(err.response.data.message)
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 font-mono text-zinc-900">
       <div className="w-full max-w-md space-y-8">
@@ -13,7 +48,17 @@ const SignUpPage = () => {
         </div>
 
         {/* Sign Up Form */}
-        <UserForm>Create Account</UserForm>
+        <UserForm
+          usernameInput = {usernameInput}
+          setUsernameInput={setUsernameInput}
+          passwordInput= {passwordInput}
+          setPasswordInput={setPasswordInput}
+          errMsg={errMsg}
+          onSubmit={signup}
+
+        >
+          Create Account
+        </UserForm>
 
         {/* Footer Text */}
         <p className="text-center text-zinc-500 text-sm">

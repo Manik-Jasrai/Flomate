@@ -9,10 +9,11 @@ datasource db {
 }
 
 model User {
-  id   Int @id @default(autoincrement())
-  username String
-  password String
-  flows Flow[]
+  id           Int @id @default(autoincrement())
+  username     String
+  password     String
+  refreshToken String  @default("")
+  flows        Flow[]
 }
 
 model Flow {

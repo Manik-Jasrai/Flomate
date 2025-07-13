@@ -1,6 +1,45 @@
+import { useState, useEffect} from "react";
+import { api } from "../api/axios";
 import UserForm from "../components/forms/UserForm";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
 
 const LogInPage = () => {
+  const [usernameInput, setUsernameInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
+  const navigate = useNavigate();
+  const [ , setUser ] = useAuth();
+
+  useEffect(() => {
+      setErrMsg('');
+  }, [usernameInput, passwordInput])
+
+  const login = async (e : any) => {
+    e.preventDefault();
+    const username = usernameInput;
+    const password = passwordInput;
+
+    try{
+
+      const result = await api.post('/auth/login',{
+        username,password
+      });
+      setErrMsg("");
+      const token = result.data.accessToken
+      // Save token
+      setUser({username, token});
+      // Navigate to Dashboard
+      navigate('/dashboard');
+    } catch(err : any) {
+      if (err.response.data) {
+        setErrMsg(err.response.data)
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 font-mono text-zinc-900">
       <div className="w-full max-w-md space-y-8">
@@ -13,7 +52,16 @@ const LogInPage = () => {
         </div>
 
         {/* Login Form */}
-        <UserForm>Log In</UserForm>
+        <UserForm
+          usernameInput = {usernameInput}
+          setUsernameInput={setUsernameInput}
+          passwordInput= {passwordInput}
+          setPasswordInput={setPasswordInput}
+          errMsg={errMsg}
+          onSubmit={login}
+        >
+          Log In
+        </UserForm>
 
         {/* Footer Text */}
         <p className="text-center text-zinc-500 text-sm">

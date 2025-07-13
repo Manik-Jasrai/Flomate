@@ -2,8 +2,9 @@ import { Request, Response, Router } from "express";
 import { loginSchema, registerSchema } from "../types";
 import bcrypt from "bcrypt";
 import client  from "@repo/db"
-import jwt  from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET } from "../config";
+import jwt, { JwtPayload }  from "jsonwebtoken";
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../config";
+import verifyJwt from "../middleware/verifyJwt";
 
 const router = Router();
 
@@ -61,6 +62,26 @@ router.post('/login', async (req : Request, res : Response) : Promise<any> => {
     const accessToken = jwt.sign({
         id : validUser.id
     }, ACCESS_TOKEN_SECRET);
+    
+    const refreshToken = jwt.sign({
+        id : validUser.id
+    }, REFRESH_TOKEN_SECRET)
+
+    await client.user.update({
+        where : {
+            id : validUser.id
+        },
+        data : {
+            refreshToken
+        }
+    })
+
+    res.cookie('jwt', refreshToken, { 
+        httpOnly: true, 
+        sameSite: 'lax',        // or 'None' + secure for cross-site
+        secure: false,          // set to true in production (with HTTPS)
+        maxAge: 24 * 60 * 60 * 1000
+    });
 
     return res.json({
         accessToken
@@ -68,4 +89,69 @@ router.post('/login', async (req : Request, res : Response) : Promise<any> => {
 
 })
 
+router.get('/refresh', async (req : Request, res) => {
+    const cookie = req.cookies;
+    if( !cookie || !cookie.jwt ) {
+        res.sendStatus( 401 );
+        console.log("No Cookie");
+        return
+    } 
+    const refreshToken = cookie.jwt;    
+
+    const validUser = await client.user.findFirst({
+        where : {
+            refreshToken
+        }
+    })
+
+    if (!validUser) {
+        res.sendStatus(404);
+        return
+    } 
+
+    jwt.verify(
+        validUser.refreshToken,
+        REFRESH_TOKEN_SECRET,
+        (err, decoded) => {
+            if (err) {
+                res.sendStatus(403);
+                return;
+            }
+            const decodedPayload = decoded as JwtPayload
+            //@ts-ignore
+            const id = decodedPayload.id;
+
+            const accessToken = jwt.sign({
+                id
+                },ACCESS_TOKEN_SECRET
+            )
+
+            res.json({accessToken});
+            return
+        }
+    )
+})
+
+router.get('/logout',verifyJwt, async(req, res) => {
+    // @ts-ignore
+    const id = req.id;
+    const cookie = req.cookies;
+    if( !cookie || !cookie.jwt ) {
+        res.sendStatus( 204 );
+        return
+    } 
+    const refreshToken = cookie.jwt; 
+    
+    await client.user.update({
+        where : {
+            id,
+            refreshToken : refreshToken
+        },
+        data : {
+            refreshToken : ""
+        }
+    })
+
+    res.sendStatus(204)
+})
 export const authRouter = router;
