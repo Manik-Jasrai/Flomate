@@ -1,13 +1,23 @@
-import React from "react";
-
-const flows = [
-  { name: "New User Welcome Email", updated: "2 hours ago" },
-  { name: "Slack → Notion Daily Sync", updated: "1 day ago" },
-  { name: "Webhook to Airtable", updated: "3 days ago" },
-  { name: "GitHub → Discord CI Alert", updated: "1 week ago" },
-];
+import { useEffect, useState } from "react";
+import RectButton from "../components/buttons/RectButton";
+import FlowItem from "../components/FlowItem";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const apiPrivate = useAxiosPrivate();
+  const [flows, setFlows] = useState<Array<any>>([]);
+  const navigate = useNavigate();
+
+  const getAllFlows = async () => {
+    const response = await apiPrivate.get('/flow');
+    setFlows(response.data.flows)
+  }
+
+  useEffect(() => {
+    getAllFlows();
+  },[]);
+
   return (
     <div className="min-h-screen font-mono text-zinc-900">
       {/* Header Section */}
@@ -16,36 +26,29 @@ export default function Dashboard() {
           <h2 className="text-3xl font-extrabold text-zinc-800 mb-1">Your Flows</h2>
           <p className="text-zinc-500 text-sm">Automate, monitor, and create new integrations.</p>
         </div>
-        <button className="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg font-semibold shadow">
+        <RectButton onClick={() => navigate('./newFlow')}>
           + Create Flow
-        </button>
+        </RectButton>
       </div>
 
       {/* Flow List */}
-      <div className="max-w-5xl mx-auto px-6 space-y-4">
-        {flows.map((flow, idx) => (
-          <div
-            key={idx}
-            className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm hover:shadow-md transition flex justify-between items-center"
-          >
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-800">{flow.name}</h3>
-              <p className="text-sm text-zinc-500">Last updated: {flow.updated}</p>
-            </div>
-            <button className="text-sm text-amber-600 hover:underline">Open</button>
-          </div>
+      <div className="max-w-5xl mx-auto px-6 space-y-2">
+        {flows.map((flow) => (
+          <FlowItem 
+            flow={flow}
+          />
         ))}
       </div>
 
       {/* Empty state example (if no flows) */}
-      {/* 
-      <div className="text-center text-zinc-500 mt-16">
+            
+      {/* <div className="text-center text-zinc-500 mt-16 py-5 justify-center">
         <p className="text-xl">No flows yet. Time to create your first automation!</p>
-        <button className="mt-4 bg-amber-600 hover:bg-amber-500 text-white px-6 py-2 rounded-lg font-semibold">
+        <RectButton onClick={() => console.log("New Flow")}>
           + Create Flow
-        </button>
-      </div>
-      */}
+        </RectButton>
+      </div> */}
+     
     </div>
   );
 }

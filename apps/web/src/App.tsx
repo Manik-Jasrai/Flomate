@@ -5,6 +5,8 @@ import SignUpPage from "./pages/SignUpPage"
 import Me from "./pages/Me"
 import Dashboard from "./pages/Dashboard"
 import AppBar from "./components/AppBar"
+import Flow from "./pages/Flow"
+import NewFlow from "./pages/NewFlow"
 
 function App() {
 
@@ -17,6 +19,8 @@ function App() {
       <Route path="/login" element={<LogInPage />} />
       <Route path="/me" element={<Me />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard/newFlow" element={<NewFlow />} />
+      <Route path="/dashboard/flow/:flowId" element={<Flow />} />
 
     </Routes>
     </>

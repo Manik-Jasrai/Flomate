@@ -9,6 +9,7 @@ import { flowRouter } from "./routes/flow";
 import { triggerRouter } from "./routes/trigger";
 import { actionRouter } from "./routes/action";
 import logger from "./middleware/logger";
+import { seedDB } from "./db/seed";
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,8 @@ app.use('/api/v1/action',  verifyJwt,  actionRouter);
 
 
 
+
+seedDB();
 
 app.listen(4000, () => {
     console.log("API has started");

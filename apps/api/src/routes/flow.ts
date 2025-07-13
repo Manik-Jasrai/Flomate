@@ -29,7 +29,6 @@ router.post('/', async (req, res) => {
                 }
             }
         })
-        console.log(flow);
         const trigger = await tx.trigger.create({
             data : {
                 triggerId : parsedData.data.availableTriggerId,
@@ -45,8 +44,7 @@ router.post('/', async (req, res) => {
                 triggerId : trigger.id
             }
         })
-        console.log(flow);
-        return flow.id
+        return newFlow.id
 
     })
 
