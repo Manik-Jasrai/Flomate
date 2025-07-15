@@ -7,7 +7,7 @@ interface UserFormParams {
   passwordInput : string 
   setPasswordInput : React.Dispatch<SetStateAction<string>>
   errMsg : string
-  onSubmit : (e : any) => Promise<void>
+  onSubmit : () => Promise<void>
 }
 
 const UserForm = ({
@@ -20,7 +20,7 @@ const UserForm = ({
     onSubmit} : UserFormParams) => 
   {
   return (
-    <form className="p-6 rounded-xl shadow-md border border-zinc-200 space-y-6" onSubmit={onSubmit} method='POST'>
+    <form className="p-6 rounded-xl shadow-md border border-zinc-200 space-y-6" onSubmit={(e) => {e.preventDefault();onSubmit();}} method='POST'>
           <div>
             <label htmlFor="username" className="block text-sm text-zinc-700 mb-1">
               Username

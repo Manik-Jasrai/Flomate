@@ -11,8 +11,7 @@ const SignUpPage = () => {
     setErrMsg('');
   }, [usernameInput, passwordInput])
 
-  const signup = async (e : any) => {
-    e.preventDefault();
+  const signup = async () => {
     const username = usernameInput;
     const password = passwordInput;
 

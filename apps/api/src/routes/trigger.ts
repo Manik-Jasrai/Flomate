@@ -39,8 +39,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    const triggers =  await client.availableTrigger.findMany({});
-    res.json({triggers})
+    const availableTriggers =  await client.availableTrigger.findMany({});
+    res.json({availableTriggers})
 })
 
 export const triggerRouter = router;

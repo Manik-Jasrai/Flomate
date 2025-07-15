@@ -16,8 +16,7 @@ const LogInPage = () => {
       setErrMsg('');
   }, [usernameInput, passwordInput])
 
-  const login = async (e : any) => {
-    e.preventDefault();
+  const login = async () => {
     const username = usernameInput;
     const password = passwordInput;
 

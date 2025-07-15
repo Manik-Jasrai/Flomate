@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { loginSchema, registerSchema } from "../types";
+import { loginSchema, registerSchema } from "@repo/types";
 import bcrypt from "bcrypt";
 import client  from "@repo/db"
 import jwt, { JwtPayload }  from "jsonwebtoken";
@@ -14,7 +14,6 @@ router.post('/register', async (req: Request, res: Response): Promise<any> => {
         res.status(411).json({'message' : 'Invalid Credentials'});
         return;
     }
-    
     // Find existing user
     const existingUser = await client.user.findFirst({
         where : {

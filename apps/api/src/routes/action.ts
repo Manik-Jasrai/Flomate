@@ -38,8 +38,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    const actions =  await client.availableAction.findMany({});
-    res.json({actions})
+    const availableActions =  await client.availableAction.findMany({});
+    res.json({availableActions})
 })
 
 export const actionRouter = router;
