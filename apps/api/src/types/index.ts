@@ -13,6 +13,7 @@ export const loginSchema = z.object({
 export const flowCreateSchema = z.object({
     availableTriggerId: z.string(),
     triggerMetadata: z.any().optional(),
+    name : z.string(),
     actions : z.array(z.object({
         availableAction : z.string(),
         metadata : z.any().optional()

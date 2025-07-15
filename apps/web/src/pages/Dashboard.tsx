@@ -3,10 +3,11 @@ import RectButton from "../components/buttons/RectButton";
 import FlowItem from "../components/FlowItem";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
+import type { FlowType } from "../types";
 
 export default function Dashboard() {
   const apiPrivate = useAxiosPrivate();
-  const [flows, setFlows] = useState<Array<any>>([]);
+  const [flows, setFlows] = useState<Array<FlowType>>([]);
   const navigate = useNavigate();
 
   const getAllFlows = async () => {

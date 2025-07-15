@@ -21,7 +21,6 @@ const LogInPage = () => {
     const password = passwordInput;
 
     try{
-
       const result = await api.post('/auth/login',{
         username,password
       });

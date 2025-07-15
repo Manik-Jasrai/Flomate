@@ -1,6 +1,6 @@
 import { type ReactNode, type SetStateAction } from 'react'
 
-interface UserFormParams {
+interface UserFormProps {
   children : ReactNode,
   usernameInput : string
   setUsernameInput : React.Dispatch<SetStateAction<string>>
@@ -17,7 +17,7 @@ const UserForm = ({
     passwordInput, 
     setPasswordInput, 
     errMsg, 
-    onSubmit} : UserFormParams) => 
+    onSubmit} : UserFormProps) => 
   {
   return (
     <form className="p-6 rounded-xl shadow-md border border-zinc-200 space-y-6" onSubmit={(e) => {e.preventDefault();onSubmit();}} method='POST'>

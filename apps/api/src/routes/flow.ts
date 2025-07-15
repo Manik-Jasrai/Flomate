@@ -14,11 +14,11 @@ router.post('/', async (req, res) => {
         });
         return;
     }
-
     const flowId = await client.$transaction(async (tx : any) => {
         const flow = await tx.flow.create({
             data : {
                 userId : parseInt(userId),
+                name : parsedData.data.name,
                 triggerId : "",
                 action : {
                     create : parsedData.data.actions.map((action, idx) => ({

@@ -18,6 +18,7 @@ model User {
 
 model Flow {
   id        String     @id @default(uuid())
+  name      String
   triggerId String
   trigger   Trigger?
   action    Action[]
@@ -42,7 +43,7 @@ model AvailableTrigger {
 
 model Action {
   id           String          @id @default(uuid())
-  flowId       String          @unique
+  flowId       String          
   flow         Flow            @relation(fields: [flowId], references: [id])
   actionId     String
   type         AvailableAction @relation(fields: [actionId], references: [id])

@@ -1,9 +1,15 @@
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import type { AvailableActionType, AvailableTriggerType } from "../types";
 import SmallButton from "./buttons/SmallButton"
 import FlowCell from "./FlowCell"
 
+interface WorkspaceProps {
+  trigger : AvailableTriggerType,
+  setMode : React.Dispatch<React.SetStateAction<number| null>>
+  actions : Array<AvailableActionType>
+  setActions : React.Dispatch<React.SetStateAction<Array<AvailableActionType>>>
+}
 
-const Workspace = ({trigger, setMode, actions, setActions} : any) => {
+const Workspace = ({trigger, setMode, actions, setActions} : WorkspaceProps) => {
 
   const addEmtpyAction = () => {
     setActions((prev : any) => [...prev, {}]);
@@ -17,14 +23,14 @@ const Workspace = ({trigger, setMode, actions, setActions} : any) => {
             <FlowCell 
             idx={1} 
             name={trigger?.name ? trigger.name : "Trigger"} 
-            onClick={() => setMode("trigger")} 
+            onClick={() => setMode(1)} 
             />
             <SmallButton onClick={addEmtpyAction} >+</SmallButton>
             {actions.map((a : any, idx : any) => {
               return <>
                 <FlowCell idx={idx+2} 
                 name={a.name ? a.name : "Action"}
-                onClick={() => setMode("action")} 
+                onClick={() => setMode(idx + 2)} 
                  />
                 <SmallButton onClick={addEmtpyAction} >+</SmallButton>
               </>

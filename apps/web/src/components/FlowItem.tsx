@@ -1,20 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import type { FlowType } from "../types";
 
 interface FlowItemProps {
-  flow: {
-    id: string;
-    name: string;
-    trigger: {
-      type: {
-        name: string;
-      };
-    };
-    action: Array<{
-      type: {
-        name: string;
-      };
-    }>;
-  };
+  flow: FlowType
 }
 
 const FlowItem = ({ flow }: FlowItemProps) => {
@@ -27,7 +15,7 @@ const FlowItem = ({ flow }: FlowItemProps) => {
       onClick={() => navigate(`./flow/${flow.id}`)}
     >
       <div>
-        <h3 className="text-lg font-semibold text-zinc-800">Name</h3>
+        <h3 className="text-lg font-semibold text-zinc-800">{flow.name}</h3>
         <p className="text-sm text-zinc-500 mb-1">
           Trigger: <span className="font-medium">{flow.trigger.type.name}</span>
         </p>

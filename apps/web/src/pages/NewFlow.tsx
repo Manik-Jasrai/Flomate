@@ -3,10 +3,11 @@ import SelectionArea from "../components/SelectionArea";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
+import type { AvailableActionType, AvailableTriggerType } from "../types";
 
 const useAvailableActionsandTriggers = () => {
-  const [availableTriggers, setAvailableTriggers] = useState<[]>([]);
-  const [availableActions, setAvailableActions] = useState<[]>([]);
+  const [availableTriggers, setAvailableTriggers] = useState<AvailableTriggerType[]>([]);
+  const [availableActions, setAvailableActions] = useState<AvailableActionType[]>([]);
 
   const apiPrivate = useAxiosPrivate();
 
@@ -26,14 +27,11 @@ const useAvailableActionsandTriggers = () => {
 }
 
 export default function NewFlow() {
-  const [mode, setMode] = useState<"trigger" | "action" | null>(null);
+  const [mode, setMode] = useState<number | null>(null);
   
-  const [trigger, setTrigger] = useState<{id : string, name : string}>();
-  const [actions, setActions] = useState<{
-        id: string;
-        name: string;
-        metadata: any;
-    }[]>([]);
+  
+  const [trigger, setTrigger] = useState<AvailableTriggerType>({id : " ", name : ""});
+  const [actions, setActions] = useState<Array<AvailableActionType>>([]);
   const {availableTriggers, availableActions} = useAvailableActionsandTriggers();
 
   const apiPrivate = useAxiosPrivate();
@@ -44,7 +42,7 @@ export default function NewFlow() {
       return
     };
 
-    if (mode === "trigger") {
+    if (mode === 1) {
       setTrigger({
         id : props.id,
         name : props.name
@@ -63,15 +61,17 @@ export default function NewFlow() {
     setMode(null);
   }
 
-  const createFlow = () => {
-    apiPrivate.post('/flow', {
-      availableTriggerId: trigger?.id,
-      actions : actions.map((a : any) => {
+  const createFlow = async () => {
+    const response = await apiPrivate.post('/flow', {
+      availableTriggerId: trigger.id,
+      name : "Flow",
+      actions : actions.map((a : AvailableActionType) => {
         return {
           availableAction : a.id
         }
       })
     });
+    console.log(response)
     navigate('/dashboard');
   }
   
@@ -92,8 +92,8 @@ export default function NewFlow() {
         </div>
         <Workspace
           trigger={trigger}
-          setMode={setMode}
           actions={actions}
+          setMode={setMode}
           setActions={setActions}
         />
       </div>
@@ -102,7 +102,7 @@ export default function NewFlow() {
         <SelectionArea 
           mode={mode} 
           onSelect={onSelect}
-          availableItems={mode==="trigger" ? availableTriggers : availableActions}
+          availableItems={mode === 1 ? availableTriggers : availableActions}
         />
       }
       
