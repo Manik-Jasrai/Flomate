@@ -47,9 +47,9 @@ export default function NewFlow() {
         id : props.id,
         name : props.name
       })
-    } else {
+    } else if (mode && mode > 1) {
       let newActions = [...actions];
-      newActions[newActions.length - 1] = {
+      newActions[mode - 2] = {
         id : props.id,
         name : props.name,
         metadata : ""

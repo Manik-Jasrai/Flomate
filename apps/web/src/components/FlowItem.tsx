@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { FlowType } from "../types";
+import CopyLinkButton from "./buttons/CopyLinkButton";
+import { HOOKS_URL } from "../config";
 
 interface FlowItemProps {
   flow: FlowType
@@ -12,9 +14,8 @@ const FlowItem = ({ flow }: FlowItemProps) => {
     <div
       key={flow.id}
       className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm hover:shadow-md transition flex justify-between items-center cursor-pointer"
-      onClick={() => navigate(`./flow/${flow.id}`)}
     >
-      <div>
+      <div onClick={() => navigate(`./flow/${flow.id}`)} >
         <h3 className="text-lg font-semibold text-zinc-800">{flow.name}</h3>
         <p className="text-sm text-zinc-500 mb-1">
           Trigger: <span className="font-medium">{flow.trigger.type.name}</span>
@@ -30,6 +31,7 @@ const FlowItem = ({ flow }: FlowItemProps) => {
           </p>
         )}
       </div>
+      <CopyLinkButton linkToCopy={`${HOOKS_URL}/hooks/catch/${flow.userId}/${flow.id}`}></CopyLinkButton>
     </div>
   );
 };
