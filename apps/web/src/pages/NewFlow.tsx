@@ -65,7 +65,7 @@ export default function NewFlow() {
   const createFlow = async () => {
     const response = await apiPrivate.post('/flow', {
       availableTriggerId: trigger.id,
-      name : "Flow",
+      name : `Untitled`,
       actions : actions.map((a : AvailableActionType) => {
         return {
           availableAction : a.id,
@@ -86,7 +86,7 @@ export default function NewFlow() {
             Workspace
           </div>
           <button 
-          className="text-lg font-medium text-white bg-amber-500 px-10 py-2 rounded-2xl cursor-pointer hover:bg-amber-400"
+          className="text-lg font-medium text-white bg-amber-600 px-10 py-2 rounded-2xl cursor-pointer hover:bg-amber-400"
           onClick={createFlow}
           >
             Publish

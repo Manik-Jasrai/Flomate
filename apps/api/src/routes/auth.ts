@@ -60,11 +60,11 @@ router.post('/login', async (req : Request, res : Response) : Promise<any> => {
 
     const accessToken = jwt.sign({
         id : validUser.id
-    }, ACCESS_TOKEN_SECRET);
+    }, ACCESS_TOKEN_SECRET, { expiresIn : '10m'});
     
     const refreshToken = jwt.sign({
         id : validUser.id
-    }, REFRESH_TOKEN_SECRET)
+    }, REFRESH_TOKEN_SECRET, { expiresIn : '1d'})
 
     await client.user.update({
         where : {

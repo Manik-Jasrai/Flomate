@@ -22,6 +22,7 @@ const AppBar = () => {
       } catch (error: any) {
         console.error(error?.response || error);
         setUser({ username: "", token: null }); // Clear on failure
+        navigate('/login');
       } finally {
         setLoading(false);
       }

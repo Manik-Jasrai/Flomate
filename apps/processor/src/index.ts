@@ -9,16 +9,17 @@ const queue = new Queue('Flows', {
     }
 })
 
-
 const main = async () => {
     while(1) {
         // Get from database
         const requests = await prisma.flowRunOutBox.findMany({ take : 10});
         if (requests.length) console.log(requests);
+
         // push to queue
         requests.forEach(async req => {
-            await queue.add('FlowTasks', req);
+            await queue.add('FlowTasks', {flowRunId : req.flowRunId, stage : 0});
         });
+        
         // delete from database
         const response = await prisma.flowRunOutBox.deleteMany({
             where : {
@@ -27,7 +28,10 @@ const main = async () => {
                 }
             }
         })
+
         if (response.count) console.log(response);
+
+        await new Promise(r => setTimeout(r, 3000));
     }
 }
 
