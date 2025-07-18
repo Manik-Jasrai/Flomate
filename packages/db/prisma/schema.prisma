@@ -32,6 +32,7 @@ model Trigger {
   flowId    String           @unique
   flow      Flow             @relation(fields: [flowId], references: [id])
   triggerId String
+  metadata  Json             @default("{}")
   type      AvailableTrigger @relation(fields: [triggerId], references: [id])
 }
 
@@ -51,14 +52,16 @@ model Action {
   metaData     Json            @default("{}")
 }
 model AvailableAction {
-  id     String     @id @default(uuid())
-  name   String     @unique
-  action Action[]
+  id           String     @id @default(uuid())
+  name         String     @unique
+  dataRequired String[]   @default([])
+  action       Action[]
 }
 
 model FlowRun {
   id            String          @id @default(uuid())
   flowId        String
+  metadata      Json            @default("{}")
   flow          Flow            @relation(fields: [flowId], references: [id])
   flowRunOutBox FlowRunOutBox?
 }

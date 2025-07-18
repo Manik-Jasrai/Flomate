@@ -2,6 +2,7 @@ import express from "express"
 import prisma  from "@repo/db"
 const app = express();
 
+const PORT = process.env.PORT || 3000
 
 app.post('/hooks/catch/:userId/:flowId', async (req, res) => {
     const userId = req.params.userId
@@ -23,6 +24,6 @@ app.post('/hooks/catch/:userId/:flowId', async (req, res) => {
     res.json({message : "Done"})
 })
 
-app.listen(3000, () => {
-    console.log('Server has started')
+app.listen(PORT, () => {
+    console.log(`Hooks Server has started on port ${PORT}`)
 })

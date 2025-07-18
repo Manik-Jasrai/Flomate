@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import UserForm from "../components/forms/UserForm";
 import { api } from "../api/axios";
+import {  useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [usernameInput, setUsernameInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
+  const navigate = useNavigate();
   
   useEffect(() => {
     setErrMsg('');
@@ -25,6 +27,7 @@ const SignUpPage = () => {
 
       // Auto Login
       // Navigate to Dashboard
+      navigate('/login')
 
     } catch(err : any) {
       if (err.response.data.message) {

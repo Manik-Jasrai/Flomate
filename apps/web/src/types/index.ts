@@ -22,17 +22,19 @@ export type FlowType = {
       type: {
         id: string;
         name: string;
+		dataRequired : string[];
         };
     }]
 }
 
 export type AvailableTriggerType = {
-    id : string;
-    name : string;
+ 	id : string;
+	name : string;
 }
 export type AvailableActionType = {
     id : string;
     name : string;
     metadata : any;
+    dataRequired : string[];
 }
 

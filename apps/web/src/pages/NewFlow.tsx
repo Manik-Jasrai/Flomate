@@ -31,12 +31,12 @@ export default function NewFlow() {
   
   
   const [trigger, setTrigger] = useState<AvailableTriggerType>({id : " ", name : ""});
-  const [actions, setActions] = useState<Array<AvailableActionType>>([]);
+  const [actions, setActions] = useState<Array<any>>([]);
   const {availableTriggers, availableActions} = useAvailableActionsandTriggers();
 
   const apiPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const onSelect = (props : null | {name : string, id : string}) => {
+  const onSelect = (props : null | {name : string, id : string, metadata ?: any}) => {
     if (props === null) {
       setMode(null);
       return
@@ -52,8 +52,9 @@ export default function NewFlow() {
       newActions[mode - 2] = {
         id : props.id,
         name : props.name,
-        metadata : ""
+        metadata : JSON.stringify(props.metadata)
       };
+      console.log()
       setActions(newActions);
     }
 
@@ -67,7 +68,8 @@ export default function NewFlow() {
       name : "Flow",
       actions : actions.map((a : AvailableActionType) => {
         return {
-          availableAction : a.id
+          availableAction : a.id,
+          metadata : a.metadata
         }
       })
     });

@@ -80,7 +80,7 @@ router.get('/:flowId', async (req, res) => {
     // @ts-ignore
     const id  = req.id;
     const flowId = req.params.flowId;
-    const flows = await client.flow.findMany({
+    const flow = await client.flow.findFirst({
         where : {
             userId : id,
             id : flowId
@@ -100,7 +100,7 @@ router.get('/:flowId', async (req, res) => {
     })
 
     res.json({
-        flows
+        flow
     })
 })
 
