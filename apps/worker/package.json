@@ -10,16 +10,17 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/nodemailer" : "*",
-    "@types/dotenv" : "*",
+    "@types/dotenv": "*",
     "@types/node": "^24.0.12",
+    "@types/nodemailer": "*",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
+    "@notionhq/client": "^4.0.1",
     "@repo/db": "^0.0.0",
-    "dotenv": "*",
     "bullmq": "^5.56.2",
+    "dotenv": "*",
     "nodemailer": "^7.0.5"
   }
 }

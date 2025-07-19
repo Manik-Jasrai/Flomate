@@ -16,9 +16,16 @@ const availableActions = [
     {
         id : "save_to_notion",
         name : "Save To Notion",
-        dataRequired : ["API", "Key", "Body"]
+        dataRequired : ["API_SECRET", "PageName", "Content"]
     }
 ];
+
+/* Notion -> Data required 
+    ["Name of Parent", -> Database Name, Page Name
+     "Type of Parent", -> Database, Page, Block etc.
+     " "
+    ] 
+*/
 export const seedDB = async () => {
     await client.availableTrigger.createMany({
         data : availableTriggers,

@@ -22,8 +22,8 @@ export type FlowType = {
       type: {
         id: string;
         name: string;
-		dataRequired : string[];
-        };
+		    dataRequired : string[];
+      };
     }]
 }
 
