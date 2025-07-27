@@ -1,24 +1,5 @@
 # Flomate – Your Automation Platform
 
-<div align="center">
-  <img src="https://placehold.co/150x150/101010/f59e0b?text=🧠" alt="Flomate Logo" width="120">
-  <h3>Automate anything, anywhere. Triggers, actions, and flows that just work.</h3>
-  <p>An open-source, backend-heavy automation platform to connect your apps and build powerful workflows, similar to Zapier or n8n. Built with a modern, scalable, and developer-friendly stack.</p>
-  
-  <p>
-    <a href="https://github.com/your-username/flomate/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/your-username/flomate/issues">Request Feature</a>
-  </p>
-
-  <p>
-    <img src="https://img.shields.io/github/stars/your-username/flomate?style=for-the-badge&color=f59e0b" alt="GitHub Stars"/>
-    <img src="https://img.shields.io/github/forks/your-username/flomate?style=for-the-badge&color=f59e0b" alt="GitHub Forks"/>
-    <img src="https://img.shields.io/github/license/your-username/flomate?style=for-the-badge&color=f59e0b" alt="License"/>
-    <img src="https://img.shields.io/github/last-commit/your-username/flomate?style=for-the-badge&color=f59e0b" alt="Last Commit"/>
-  </p>
-</div>
-
 ## 🚀 Overview
 
 Flomate is a powerful automation platform designed to connect apps and automate workflows. It allows users to visually define **Triggers** (events) and **Actions** (tasks) that run in response, enabling seamless app integration via webhooks, APIs, and custom logic.
