@@ -6,6 +6,7 @@ Flomate is a powerful automation platform designed to connect apps and automate 
 
 Built from the ground up with a focus on performance, scalability, and developer experience, Flomate leverages a modern TypeScript-based microservices architecture managed within a Turborepo.
 
+![Architecture](./docs/Architecture.png)
 
 ## ⚙️ Core Features
 
